@@ -1,0 +1,41 @@
+﻿@page "/ingredientlists"
+@using CockTailBlazor.CustomAPI
+
+
+    <div>
+        @if (Program.ingredientNames != null)
+        {
+            @foreach (IngredientList ingredient in Program.ingredientNames.drinks)
+            {
+                string ingredientPath = "https://www.thecocktaildb.com/images/ingredients/" + @ingredient.strIngredient1 + "-medium.png";
+                <a href="/DrinksWithIngredient/@ingredient.strIngredient1">
+                    <div class="ingredientsThumb">
+                        <img src="@ingredientPath" alt="@ingredient.strIngredient1"
+                             style="margin:14px;width:180px; height:180px;"/>
+                        <p class="text-center">@ingredient.strIngredient1</p>
+                    </div>
+                </a>
+            }
+         }
+    </div>
+
+
+
+
+
+
+
+@code {
+
+    
+    protected override async Task OnInitializedAsync()
+    {
+        Program.MakeAllNull();
+
+        await Program.fetch.GetIngredientListsAsync();
+    }
+
+    
+
+
+}

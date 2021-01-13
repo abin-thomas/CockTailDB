@@ -1,0 +1,49 @@
+﻿@page "/drinkswithingredient/{ingredientClicked}"
+@using CockTailBlazor.CustomAPI
+
+
+
+@if (Program.ctDetails != null)
+{
+    
+    string ingredientPath = "https://www.thecocktaildb.com/images/ingredients/" + @ingredientClicked + ".png";
+    <div class="master" style="max-width:350px; max-height: 400px;">
+
+        <img src=@ingredientPath class="img-thumbnail">
+
+    </div>
+    <p class="ingredientDesc">@Program.ingredientDesc.ingredients[0].strDescription </p>
+
+    <h2><u>Drinks Having @Program.ingredientDesc.ingredients[0].strIngredient .</u></h2>
+    @foreach (Drinks drink in Program.ctDetails.drinks)
+    {
+        drinkIDClicked = drink.idDrink;
+        <a href="/Details/@drinkIDClicked">
+
+            <div class="master">
+                <img src="@drink.strDrinkThumb" alt="@drink.strDrink"
+                     width="200" height="200" style="border-radius:5%; margin:3px;" />
+                <p class="font-weight-bolder text-center">@drink.strDrink</p>
+            </div>
+        </a>
+
+    }
+}
+
+@code {
+
+    [Parameter]
+    public string ingredientClicked { get; set; }
+
+    string drinkIDClicked;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Program.MakeAllNull();
+        await Program.fetch.DrinksWithIngredientAsync(ingredientClicked);
+
+
+
+    }
+
+}

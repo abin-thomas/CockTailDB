@@ -1,0 +1,55 @@
+﻿@page "/cocktaillists"
+@using CockTailBlazor.CustomAPI
+
+    <div>
+        <input type="text" class="form-control form-control-lg" @bind="@searchTerm" />
+        <button type="button" class="btn btn-primary btn-block"
+                @onclick="@(e=>GetDrinksByAlphabet(@searchTerm))"
+                style="margin:4px;">
+            Search
+        </button>
+        (You can search by either drink's name or by just entering first alphabet only to see all the drinks starting with that alphabet.)
+    </div>
+    
+@if (Program.ctDetails != null)
+{
+    @foreach (Drinks drink in Program.ctDetails.drinks)
+    {
+        drinkIDClicked = drink.idDrink;
+        <a href="/Details/@drinkIDClicked">
+            <div class="master">
+                <div class="drinkThumb"
+                     style="background: url(@drink.strDrinkThumb);
+                                background-size: cover;
+                                background-position: center center;">
+
+                </div>
+                <p class="text-center">@drink.strDrink</p>
+            </div>
+        </a>
+
+    }
+}
+
+
+
+
+@code {
+
+    string drinkIDClicked;
+    string searchTerm;
+
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        Program.MakeAllNull();
+    }
+
+    private async Task GetDrinksByAlphabet(string searchValue)
+    {
+        Program.ctDetails = null;
+        await Program.fetch.DrinksByAlphabetAsync(searchValue);
+    }
+
+
+}

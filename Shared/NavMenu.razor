@@ -1,0 +1,55 @@
+﻿
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">CockTailBlazor</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="px-3">
+            <a href="">
+                <MatFAB Icon="home" Label="Home" Style="margin:4px;background-color:transparent;"></MatFAB>
+            </a>
+        </li>
+        <li class="px-3">
+            <a href="/cocktaillists">
+                <MatFAB Icon="sort_by_alpha" Label="Search" Style="margin:4px;background-color:transparent;"></MatFAB>
+            </a>
+        </li>
+        <li class="px-3">
+            <a href="/alcoholiclists">
+                <MatFAB Icon="settings_ethernet" Label="Beverage Type" Style="margin:4px;background-color:transparent;"></MatFAB>
+            </a>
+    </li>
+	<li class="px-3">
+        <a href="/categorylists">
+            <MatFAB Icon="assignment" Label="Categories" Style="margin:4px;background-color:transparent;"></MatFAB>
+        </a>
+            
+    </li>
+    <li class="px-3">
+        <a href="/glasslists">
+            <MatFAB Icon="local_bar" Label="Glass Types" Style="margin:4px;background-color:transparent;"></MatFAB>
+        </a>
+    </li>
+    <li class="px-3">
+        <a href="/ingredientlists">
+            <MatFAB Icon="restaurant_menu" Label="Ingredient Based" Style="margin:4px;background-color:transparent;"></MatFAB>
+        </a>
+    </li>
+
+    </ul>
+</div>
+
+@code {
+    bool collapseNavMenu = true;
+
+    string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

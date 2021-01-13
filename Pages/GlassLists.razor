@@ -1,0 +1,58 @@
+﻿@page "/glasslists"
+@using CockTailBlazor.CustomAPI
+
+
+    <div>
+        @if (Program.glassTypes != null)
+        {
+            <MatChipSet>
+                @foreach (GlassList glassName in Program.glassTypes.drinks)
+                {
+                    <MatChip Class="labels" Label="@glassName.strGlass" LeadingIcon="local_drink" @onclick="@(e=>GetDrinksWithGlass(@glassName.strGlass))"></MatChip>
+                }
+            </MatChipSet>
+        }
+    </div>
+
+
+@if (Program.ctDetails != null)
+{
+    @foreach (Drinks drink in Program.ctDetails.drinks)
+    {
+        drinkIDClicked = drink.idDrink;
+        <a href="/Details/@drinkIDClicked">
+            <div class="master">
+                <div class="drinkThumb"
+                     style="background: url(@drink.strDrinkThumb);
+                                background-size: cover;
+                                background-position: center center;">
+
+                </div>
+                <p class="text-center">@drink.strDrink</p>
+            </div>
+        </a>
+
+    }
+}
+
+
+
+
+@code {
+
+    string drinkIDClicked;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Program.MakeAllNull();
+
+        await Program.fetch.GlassListsAsync();
+    }
+
+    private async Task GetDrinksWithGlass(string glassType)
+    {
+        await Program.fetch.DrinksInSingleGlassAsync(glassType);
+    }
+
+
+}

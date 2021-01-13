@@ -1,0 +1,50 @@
+﻿@page "/alcoholiclists"
+@using CockTailBlazor.CustomAPI
+
+
+<div>
+    <label class="labels" @onclick="@(e=>GetDrinksAlcoholic("Alcoholic"))">Alcoholic</label>
+    <label>//</label>
+    <label class="labels" @onclick="@(e=>GetDrinksAlcoholic("Non_Alcoholic"))">Non-Alcoholic</label>
+</div>
+
+
+@if (Program.ctDetails != null)
+{
+    @foreach (Drinks drink in Program.ctDetails.drinks)
+    {
+        drinkIDClicked = drink.idDrink;
+        <a href="/Details/@drinkIDClicked">
+            <div class="master">
+                <div class="drinkThumb"
+                     style="background: url(@drink.strDrinkThumb);
+                                background-size: cover;
+                                background-position: center center;">
+
+                </div>
+                <p class="text-center">@drink.strDrink</p>
+            </div>
+        </a>
+
+    }
+}
+
+
+
+ 
+@code {
+
+        string drinkIDClicked;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Program.MakeAllNull();        
+    }
+
+    private async Task GetDrinksAlcoholic(string alcoholicType)
+    {
+        await Program.fetch.DrinksByAlcoholicAsync(alcoholicType);
+    }
+
+
+}

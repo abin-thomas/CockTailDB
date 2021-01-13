@@ -1,0 +1,56 @@
+﻿@page "/"
+@using CockTailBlazor.CustomAPI
+
+<h1>Welcome to My CockTail Party</h1>
+
+<p style="text-align:justify">
+    The Oxford Dictionaries define cocktail as "An alcoholic
+    drink consisting of a spirit or spirits mixed with other
+    ingredients, such as fruit juice or cream". A cocktail
+    can contain alcohol, a sugar, and a bitter/citrus. When
+    a mixed drink contains only a distilled spirit and a mixer,
+    such as soda or fruit juice, it is a highball. Many of
+    the International Bartenders Association Official Cocktails
+    are highballs. When a mixed drink contains only a distilled
+    spirit and a liqueur, it is a duo, and when it adds a mixer,
+    it is a trio. Additional ingredients may be sugar, honey, milk,
+    cream, and various herbs.
+</p>
+
+<div>
+    @if (Program.singleDrink != null)
+    {
+        <p><b><u> Today's Chosen Drink Is:</u></b></p>
+        @foreach (Drinks drink in Program.singleDrink.drinks)
+        {
+            drinkIDClicked = drink.idDrink;
+            <a href="/Details/@drinkIDClicked">
+                <MatCard class="demo-mat-card">
+                    <MatCardContent>
+                        <MatCardMedia Wide="true" ImageUrl=@drink.strDrinkThumb>
+                            <div class="demo-mat-card-content" style="color: white;">
+                                <MatHeadline6 class="demo-mat-card-clean-margin">
+                                    @drink.strDrink
+                                </MatHeadline6>
+                                <MatSubtitle2 class="demo-mat-card-clean-margin">
+                                    Drink Type: @drink.strCategory
+                                </MatSubtitle2>
+                            </div>
+                        </MatCardMedia>
+                    </MatCardContent>
+                </MatCard>
+            </a>
+        }
+    }
+</div>
+
+
+    @code
+    {
+        string drinkIDClicked;
+        protected override async Task OnInitializedAsync()
+        {
+            Program.MakeAllNull();
+            await Program.fetch.RandomDrinkAsync();
+        }
+    }

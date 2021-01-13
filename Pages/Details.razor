@@ -1,0 +1,101 @@
+﻿@page "/details/{drinkIDClicked}"
+@using CockTailBlazor.CustomAPI
+
+
+
+@if (Program.singleDrink != null)
+{
+    @foreach (Drinks drink in Program.singleDrink.drinks)
+    {
+        <div>
+            <div class="master">
+                <img src="@drink.strDrinkThumb" alt="@drink.strDrink"
+                     width="400" height="400" style="border-radius:5%" />
+                <p class="font-weight-bolder text-center">@drink.strDrink</p>
+            </div>
+            <div>
+                <p class="text-lg-center font-weight-bolder">Ingredients:</p>
+                
+                @for(int i=0;i<ingredientCount;i++)
+                {
+                    if (ingredients[i] != null)
+                    {
+                        ingredientPath = "https://www.thecocktaildb.com/images/ingredients/" + ingredients[i] + "-medium.png";
+                        <a href="/DrinksWithIngredient/@ingredients[i]">                            
+                            <div class="ingredientsThumb">
+                                <img src="@ingredientPath" 
+                                     alt="@ingredients[i]"
+                                     style="width:200px; height:200px;"/>
+                                <p class="text-center">@ingredientsMeasures[i] @ingredients[i]</p>
+                            </div>
+                        </a>
+                    }
+
+                }
+
+            </div>
+            <div id="divInstructions">
+                <u>Preparation Guide:</u>
+                <p>@drink.strInstructions</p>
+            </div>
+            
+        </div>
+
+    }
+}
+
+@code {
+
+    [Parameter]
+    public string drinkIDClicked { get; set; }
+
+    int ingredientCount = 7;
+    public string[] ingredients = new string[7];
+    public string[] ingredientsMeasures = new string[7];
+
+    public string ingredientPath;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Program.MakeAllNull();
+        await Program.fetch.DrinkDetailAsync(drinkIDClicked);
+
+
+        if (Program.singleDrink.drinks[0].strIngredient1 != null)
+        {
+            ingredients[0] = Program.singleDrink.drinks[0].strIngredient1;
+            ingredientsMeasures[0] = Program.singleDrink.drinks[0].strMeasure1;
+        }
+        if (Program.singleDrink.drinks[0].strIngredient2 != null)
+        {
+            ingredients[1] = Program.singleDrink.drinks[0].strIngredient2;
+            ingredientsMeasures[1] = Program.singleDrink.drinks[0].strMeasure2;
+        }
+        if (Program.singleDrink.drinks[0].strIngredient3 != null)
+        {
+            ingredients[2] = Program.singleDrink.drinks[0].strIngredient3;
+            ingredientsMeasures[2] = Program.singleDrink.drinks[0].strMeasure3;
+        }
+        if (Program.singleDrink.drinks[0].strIngredient4 != null)
+        {
+            ingredients[3] = Program.singleDrink.drinks[0].strIngredient4;
+            ingredientsMeasures[3] = Program.singleDrink.drinks[0].strMeasure4;
+        }
+        if (Program.singleDrink.drinks[0].strIngredient5 != null)
+        {
+            ingredients[4] = Program.singleDrink.drinks[0].strIngredient5;
+            ingredientsMeasures[4] = Program.singleDrink.drinks[0].strMeasure5;
+        }
+        if (Program.singleDrink.drinks[0].strIngredient6 != null)
+        {
+            ingredients[5] = Program.singleDrink.drinks[0].strIngredient6;
+            ingredientsMeasures[5] = Program.singleDrink.drinks[0].strMeasure6;
+        }
+        if (Program.singleDrink.drinks[0].strIngredient7 != null)
+        {
+            ingredients[6] = Program.singleDrink.drinks[0].strIngredient7;
+            ingredientsMeasures[6] = Program.singleDrink.drinks[0].strMeasure7;
+        }
+    }
+
+}
